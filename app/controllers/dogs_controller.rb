@@ -5,4 +5,23 @@ class DogsController < ApplicationController
     render json: @dogs
   end
 
+  def create
+    @dog = Dog.new(dog_params)
+
+    if @dog.valid?
+      @dog.save
+      render json: @dog
+    else
+      render json: {message: @dog.errors.full_messages}
+    end
+  end
+
+  private 
+
+  def dog_params
+    params.require(:dog).permit(:name, :age)
+  end
+
+
+
 end
